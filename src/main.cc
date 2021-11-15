@@ -3,4 +3,5 @@
 
 int main() {
     //ProcessFile(); 
+    SentimentAnalyzer s; 
 }
