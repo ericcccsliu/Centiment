@@ -1,5 +1,6 @@
 #include "sentiment_analyzer.hpp"
+#include "database_processing.hpp"
 
 int main() {
-    return -1;
+    ProcessFile(); 
 }
