@@ -1,0 +1,4 @@
+- fix utilities, get the database_processing header file out of the includes folder and update make file to reflect that, 
+    write a separate main function? for dealing with database processing? that only needs to be done like once though idk. not important.
+
+- test the hashmap (unordered_map), start writing functions for actual analysis
