@@ -2,6 +2,7 @@
 #define SENTIMENT_ANALYZER_H
 
 #include <unordered_map>
+#include <unordered_set>
 #include <string>
 
 using namespace std; 
@@ -10,8 +11,9 @@ class SentimentAnalyzer {
         SentimentAnalyzer(); 
     private: 
         unordered_map<string, int> lex;
-
+        unordered_set<string> negations;
         void ProcessLexicon(); 
+        void ProcessNegations();
 }; 
 
 #endif

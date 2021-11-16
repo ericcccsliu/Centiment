@@ -5,6 +5,7 @@
 
 SentimentAnalyzer::SentimentAnalyzer(){
     ProcessLexicon(); 
+    ProcessNegations();
 }
 
 void SentimentAnalyzer::ProcessLexicon(){
@@ -17,5 +18,12 @@ void SentimentAnalyzer::ProcessLexicon(){
         getline(line_stream, value_string, '\t');
         int value = stoi(value_string); 
         lex.insert(std::make_pair(keyword, value)); 
+    }
+}
+void SentimentAnalyzer::ProcessNegations(){
+    ifstream ifs("data/negations.txt");
+    string line;
+    while(getline(ifs, line)){
+        negations.insert(line);
     }
 }
