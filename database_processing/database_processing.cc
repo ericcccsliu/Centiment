@@ -10,7 +10,7 @@ using namespace std;
 
 void ProcessFile() {
     ifstream ifs("data/full_lexicon.txt"); 
-    ofstream ofs("data/sentiment_lexicon.txt");
+    ofstream ofs("data/sentiment_lexicon_TEST.txt");
     while(ifs.good()){
         string discard; 
         string negative_string;
