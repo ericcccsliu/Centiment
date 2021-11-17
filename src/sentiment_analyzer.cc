@@ -6,6 +6,8 @@
 SentimentAnalyzer::SentimentAnalyzer(){
     ProcessLexicon(); 
     ProcessNegations();
+    ProcessBoosterPos();
+    ProcessBoosterNeg();
 }
 
 void SentimentAnalyzer::ProcessLexicon(){
@@ -25,5 +27,19 @@ void SentimentAnalyzer::ProcessNegations(){
     string line;
     while(getline(ifs, line)){
         negations.insert(line);
+    }
+}
+void SentimentAnalyzer::ProcessBoosterPos(){
+    ifstream ifs("data/booster_increase.txt");
+    string line;
+    while(getline(ifs, line)){
+        booster_pos.insert(line);
+    }
+}
+void SentimentAnalyzer::ProcessBoosterNeg(){
+    ifstream ifs("data/booster_decrease.txt");
+    string line;
+    while(getline(ifs, line)){
+        booster_neg.insert(line);
     }
 }

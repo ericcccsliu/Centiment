@@ -12,8 +12,12 @@ class SentimentAnalyzer {
     private: 
         unordered_map<string, int> lex;
         unordered_set<string> negations;
+        unordered_set<string> booster_pos;
+        unordered_set<string> booster_neg;
         void ProcessLexicon(); 
         void ProcessNegations();
+        void ProcessBoosterPos();
+        void ProcessBoosterNeg();
 }; 
 
 #endif
