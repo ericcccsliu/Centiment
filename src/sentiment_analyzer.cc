@@ -55,10 +55,12 @@ double SentimentAnalyzer::Analyze(std::string input_dir) {
     return NormalizeScore(raw_score);
 }
 
-double SentimentAnalyzer::AnalyzeSentence(std::vector<std::string> sentence) {
-    double score = 0.0;
-    for(int i = 0; i < sentence.size(); i++) {
-        // do something
+int SentimentAnalyzer::AnalyzeSentence(std::vector<std::string> sentence) {
+    int score = 0.0;
+    for(std::string s : sentence) {
+        if(lex.count(s) > 0){
+            score += lex.at(s); 
+        }
     }
     return score;
 }
@@ -73,7 +75,6 @@ std::vector<std::vector<std::string>>  SentimentAnalyzer::Tokenize(std::string i
     std::vector<std::vector<std::string>>  out;
     std::vector<std::string> sent;
     std::string word;
-    char c;
 
     for (std::string line; std::getline(ifs, line);) {
         for( auto c : line) {

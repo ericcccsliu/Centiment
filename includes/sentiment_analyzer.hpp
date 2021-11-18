@@ -27,7 +27,7 @@ class SentimentAnalyzer {
         void ProcessBoosterNeg();
         bool IsSentEnd(char c);
         bool IsLetter(char c);
-        double AnalyzeSentence(std::vector<std::string>);
+        int AnalyzeSentence(std::vector<std::string>);
         double NormalizeScore(double raw_score);
         
 }; 

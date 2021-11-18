@@ -1,5 +1,5 @@
 #include "sentiment_analyzer.hpp"
-#include "database_processing.hpp"
+
 
 int main(int argc, char* argv[]) {
     if(argc != 2) {
