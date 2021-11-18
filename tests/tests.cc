@@ -42,3 +42,8 @@ TEST_CASE("Tokenize", "") {
     REQUIRE(in2[2][1] == "world");
 
 }
+
+TEST_CASE("Analyze", "") {
+    SentimentAnalyzer s;
+    REQUIRE(s.Analyze("./tests/test_input_3.txt") == 3);
+}
