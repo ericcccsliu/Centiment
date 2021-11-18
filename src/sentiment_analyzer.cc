@@ -44,31 +44,58 @@ void SentimentAnalyzer::ProcessBoosterNeg(){
 }
 
 double SentimentAnalyzer::Analyze(std::string input_dir) {
-    // assuming 1 sentence input for now
-    std::vector<std::string> tokens = Tokenize(input_dir);
+    std::vector<std::vector<std::string>>  tokens = Tokenize(input_dir);
     return 0.0;
 }
 
-std::vector<std::string> SentimentAnalyzer::Tokenize(std::string input_dir) {
-    std::vector<std::string> out;
+std::vector<std::vector<std::string>>  SentimentAnalyzer::Tokenize(std::string input_dir) {
+    
     std::ifstream ifs{input_dir};
+    std::vector<std::vector<std::string>>  out;
+    std::vector<std::string> sent;
     std::string word;
-    std::string letters = "abcdefghijklmnopqrstuvwxyz";
+    char c;
+
     for (std::string line; std::getline(ifs, line);) {
-        for(int i = 0; i < line.length(); i++) {
-            if(letters.find(std::tolower(line[i])) != std::string::npos) {
-                word+=line[i];
-            } 
-            else if (word.length() > 0){
-                out.push_back(word);
+        for( auto c : line) {
+            
+            if(IsLetter(c)) {
+                word+= c;
+            }
+            else if(IsSentEnd(c) && sent.size() > 0) {
+                
+                if(word.length() > 0) {
+                    sent.push_back(word);
+                    word = "";
+                }
+                std::vector<std::string> new_sent(sent);
+                out.push_back(new_sent);
+                sent = {};
+            }
+            else if(word.length() > 0) {
+                sent.push_back(word);
                 word = "";
-            }           
+            }
         }
-        if (word.length() > 0){
-            out.push_back(word);
-            word = "";
+        if(word.length() > 0) {
+            sent.push_back(word);
+             word = "";
         }
+
+    }
+    if(sent.size() > 0) {
+        out.push_back(sent);
     }
     return out;
 
+}
+
+bool SentimentAnalyzer::IsSentEnd(char c) {
+    std::string punct = "!?.";
+    return punct.find(c) != std::string::npos;
+}
+
+bool SentimentAnalyzer::IsLetter(char c) {
+    std::string letters = "abcdefghijklmnopqrstuvwxyz";
+    return letters.find(std::tolower(c)) != std::string::npos;
 }

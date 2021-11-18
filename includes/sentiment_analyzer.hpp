@@ -15,7 +15,7 @@ class SentimentAnalyzer {
     public:
         SentimentAnalyzer();
         double Analyze(std::string input_dir);
-        std::vector<std::string> Tokenize(std::string input_dir);
+        std::vector<std::vector<std::string>> Tokenize(std::string input_dir);
     private: 
         unordered_map<string, int> lex;
         unordered_set<string> negations;
@@ -25,6 +25,9 @@ class SentimentAnalyzer {
         void ProcessNegations();
         void ProcessBoosterPos();
         void ProcessBoosterNeg();
+        bool IsSentEnd(char c);
+        bool IsLetter(char c);
+        double AnalyzeSentence(std::vector<std::vector<std::string>>);
         
 }; 
 
