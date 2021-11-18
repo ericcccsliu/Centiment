@@ -10,7 +10,7 @@ process: bin/process
 bin/exec: ./src/main.cc ./src/sentiment_analyzer.cc
 	$(CXX) $(CXXFLAGS) $(CXXEXTRAS) $(INCLUDES) $^ -o $@
 
-bin/tests: ./tests/tests.cc obj/catch.o ./src/sentiment_analyzer.cc
+bin/tests: ./tests/tests.cc ./src/sentiment_analyzer.cc
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $^ -o $@
 
 bin/process: ./database_processing/main.cc ./database_processing/database_processing.cc

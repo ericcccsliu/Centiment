@@ -4,11 +4,18 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <string>
+#include <stdexcept>
+#include <vector>
+#include <fstream>
+#include <cctype>
+
 
 using namespace std; 
 class SentimentAnalyzer { 
     public:
-        SentimentAnalyzer(); 
+        SentimentAnalyzer();
+        double Analyze(std::string input_dir);
+        std::vector<std::string> Tokenize(std::string input_dir);
     private: 
         unordered_map<string, int> lex;
         unordered_set<string> negations;
@@ -18,6 +25,7 @@ class SentimentAnalyzer {
         void ProcessNegations();
         void ProcessBoosterPos();
         void ProcessBoosterNeg();
+        
 }; 
 
 #endif

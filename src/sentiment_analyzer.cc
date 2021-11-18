@@ -1,5 +1,4 @@
 #include "sentiment_analyzer.hpp"
-#include <fstream>
 #include <sstream> 
 #include <iostream>
 
@@ -42,4 +41,34 @@ void SentimentAnalyzer::ProcessBoosterNeg(){
     while(getline(ifs, line)){
         booster_neg.insert(line);
     }
+}
+
+double SentimentAnalyzer::Analyze(std::string input_dir) {
+    // assuming 1 sentence input for now
+    std::vector<std::string> tokens = Tokenize(input_dir);
+    return 0.0;
+}
+
+std::vector<std::string> SentimentAnalyzer::Tokenize(std::string input_dir) {
+    std::vector<std::string> out;
+    std::ifstream ifs{input_dir};
+    std::string word;
+    std::string letters = "abcdefghijklmnopqrstuvwxyz";
+    for (std::string line; std::getline(ifs, line);) {
+        for(int i = 0; i < line.length(); i++) {
+            if(letters.find(std::tolower(line[i])) != std::string::npos) {
+                word+=line[i];
+            } 
+            else if (word.length() > 0){
+                out.push_back(word);
+                word = "";
+            }           
+        }
+        if (word.length() > 0){
+            out.push_back(word);
+            word = "";
+        }
+    }
+    return out;
+
 }
