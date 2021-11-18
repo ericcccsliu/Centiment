@@ -1,3 +1,6 @@
 
 
-- test the hashmap (unordered_map), start writing functions for actual analysis
+- test the hashmap (unordered_map)
+- normalization
+- sentence analysis
+- full text analysis
