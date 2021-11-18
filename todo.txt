@@ -5,3 +5,4 @@
 - sentence analysis
 - full text analysis
 - handle clauses?
+- speed up IsLetter()?
