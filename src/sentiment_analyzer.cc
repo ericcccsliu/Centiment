@@ -44,8 +44,27 @@ void SentimentAnalyzer::ProcessBoosterNeg(){
 }
 
 double SentimentAnalyzer::Analyze(std::string input_dir) {
-    std::vector<std::vector<std::string>>  tokens = Tokenize(input_dir);
-    return 0.0;
+    std::vector<std::vector<std::string>>  sentences = Tokenize(input_dir);
+
+    double raw_score = 0.0;
+
+    for(auto sent : sentences) {
+        raw_score += AnalyzeSentence(sent);
+    }
+
+    return NormalizeScore(raw_score);
+}
+
+double SentimentAnalyzer::AnalyzeSentence(std::vector<std::string> sentence) {
+    double score = 0.0;
+    for(int i = 0; i < sentence.size(); i++) {
+        // do something
+    }
+    return score;
+}
+
+double SentimentAnalyzer::NormalizeScore(double raw_score) {
+    return raw_score;
 }
 
 std::vector<std::vector<std::string>>  SentimentAnalyzer::Tokenize(std::string input_dir) {
