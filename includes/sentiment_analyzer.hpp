@@ -21,10 +21,14 @@ class SentimentAnalyzer {
         unordered_set<string> negations;
         unordered_set<string> booster_pos;
         unordered_set<string> booster_neg;
+
+        /*initialization*/
         void ProcessLexicon(); 
         void ProcessNegations();
         void ProcessBoosterPos();
         void ProcessBoosterNeg();
+
+        /*processing*/ 
         bool IsSentEnd(char c);
         bool IsLetter(char c);
         int AnalyzeSentence(std::vector<std::string>);
