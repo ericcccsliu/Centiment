@@ -70,7 +70,6 @@ double SentimentAnalyzer::NormalizeScore(double raw_score) {
 }
 
 std::vector<std::vector<std::string>>  SentimentAnalyzer::Tokenize(std::string input_dir) {
-    
     std::ifstream ifs{input_dir};
     std::vector<std::vector<std::string>>  out;
     std::vector<std::string> sent;
@@ -78,7 +77,6 @@ std::vector<std::vector<std::string>>  SentimentAnalyzer::Tokenize(std::string i
 
     for (std::string line; std::getline(ifs, line);) {
         for( auto c : line) {
-            
             if(IsLetter(c)) {
                 word+= c;
             }
@@ -104,7 +102,6 @@ std::vector<std::vector<std::string>>  SentimentAnalyzer::Tokenize(std::string i
 
     }
     if(sent.size() > 0) {
-        out.push_back(sent);
         if(word.length() > 0) {
             sent.push_back(word);
             word = "";

@@ -12538,7 +12538,6 @@ taut	0
 tavern	0
 tawny	0
 tax	-1
-taxes -1
 taxicab	0
 taxonomy	0
 tea	0

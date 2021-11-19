@@ -47,3 +47,20 @@ TEST_CASE("Analyze", "") {
     SentimentAnalyzer s;
     REQUIRE(s.Analyze("./tests/test_input_3.txt") == 3);
 }
+/**
+TEST_CASE("tokenize problems", "") {
+    SentimentAnalyzer s;
+    std::vector<std::vector<std::string>> in = s.Tokenize("./tests/test_input_4.txt");
+
+    REQUIRE(in.size() == 2);
+    REQUIRE(in[0].size() == 4);
+    REQUIRE(in[1].size() == 3);
+    REQUIRE(in[0][0] == "Spring");
+    REQUIRE(in[0][0] == "is");
+    REQUIRE(in[0][0] == "really");
+    REQUIRE(in[0][0] == "here");
+    REQUIRE(in[0][0] == "Swans");
+    REQUIRE(in[0][0] == "are");
+    REQUIRE(in[0][0] == "back");
+}
+**/
