@@ -28,5 +28,5 @@ int main(int argc, char* argv[]) {
         myfile.close();
     }
     SentimentAnalyzer s; 
-    std::cout << s.Analyze(to_anlyze);
+    std::cout << "result: " << s.Analyze(to_anlyze) << std::endl;
 }
