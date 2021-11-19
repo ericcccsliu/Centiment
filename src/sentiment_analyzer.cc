@@ -105,6 +105,13 @@ std::vector<std::vector<std::string>>  SentimentAnalyzer::Tokenize(std::string i
     }
     if(sent.size() > 0) {
         out.push_back(sent);
+        if(word.length() > 0) {
+            sent.push_back(word);
+            word = "";
+        }
+        std::vector<std::string> new_sent(sent);
+        out.push_back(new_sent);
+        sent = {};
     }
     return out;
 
