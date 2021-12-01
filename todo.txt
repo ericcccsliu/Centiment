@@ -1,7 +1,7 @@
 
 - match booster words and negations - eric 
 - test the hashmap (unordered_map)
-- normalization (scaling) - irina 
+- normalization (scaling) - irina (done)
 - come up with a name (good)
     - before this, figure out how to make this shit a library
 - sentence analysis
