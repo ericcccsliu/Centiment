@@ -8,7 +8,7 @@
 #include <vector>
 #include <fstream>
 #include <cctype>
-
+#include <cmath>
 
 using namespace std; 
 class SentimentAnalyzer { 
@@ -32,7 +32,7 @@ class SentimentAnalyzer {
         bool IsSentEnd(char c);
         bool IsLetter(char c);
         int AnalyzeSentence(std::vector<std::string>);
-        double NormalizeScore(double raw_score);
+        double ScaleScore(int raw_score);
         
 }; 
 

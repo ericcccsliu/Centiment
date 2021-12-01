@@ -10,5 +10,5 @@ int main(int argc, char* argv[]) {
     // TODO: handle multiple sentences
     std::string input = argv[1];
     SentimentAnalyzer s; 
-    // std::cout << s.Analyze(input);
+    std::cout << s.Analyze(input);
 }

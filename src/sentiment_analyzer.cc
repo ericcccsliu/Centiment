@@ -46,13 +46,13 @@ void SentimentAnalyzer::ProcessBoosterNeg(){
 double SentimentAnalyzer::Analyze(std::string input_dir) {
     std::vector<std::vector<std::string>>  sentences = Tokenize(input_dir);
 
-    double raw_score = 0.0;
+    int raw_score = 0;
 
     for(auto sent : sentences) {
         raw_score += AnalyzeSentence(sent);
     }
 
-    return NormalizeScore(raw_score);
+    return ScaleScore(raw_score);
 }
 
 int SentimentAnalyzer::AnalyzeSentence(std::vector<std::string> sentence) {
@@ -65,8 +65,19 @@ int SentimentAnalyzer::AnalyzeSentence(std::vector<std::string> sentence) {
     return score;
 }
 
-double SentimentAnalyzer::NormalizeScore(double raw_score) {
-    return raw_score;
+/**
+ * scales score using 1/(1+|x|)
+ * ScaleScore uses this function because it approaches its upper and lower bounds 
+ * "slower" than the logistic function, x/sqrt(1+x^2), tanh(x), and (2/pi)arctan(x)
+ * 
+ * this is important if you want to compare scores for larger, v + or v - files
+ * for example, tanh(1.47) is about .90 while 1/(1+|9|) is 0.90
+ * 
+ * TODO: add options for scale function (i.e. x/sqrt(1+x^2), tanh(x), erf(sqrt(pi)x/2)
+ * (2/pi)arctan(x))
+ **/
+double SentimentAnalyzer::ScaleScore(int raw_score) {
+    return ((double) raw_score) / (1 + abs(raw_score));
 }
 
 std::vector<std::vector<std::string>>  SentimentAnalyzer::Tokenize(std::string input_dir) {

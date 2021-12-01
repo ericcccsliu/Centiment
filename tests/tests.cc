@@ -45,7 +45,7 @@ TEST_CASE("Tokenize", "") {
 
 TEST_CASE("Analyze", "") {
     SentimentAnalyzer s;
-    REQUIRE(s.Analyze("./tests/test_input_3.txt") == 3);
+    REQUIRE(s.Analyze("./tests/test_input_3.txt") == 0.75);
 }
 /**
 TEST_CASE("tokenize problems", "") {
