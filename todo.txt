@@ -1,10 +1,11 @@
 
 - match booster words and negations - eric 
 - test the hashmap (unordered_map)
-- normalization - irina 
+- normalization (scaling) - irina 
 - come up with a name (good)
     - before this, figure out how to make this shit a library
 - sentence analysis
 - full text analysis
+- options for diff scaling functions?
 - handle clauses?
 - speed up IsLetter()?
