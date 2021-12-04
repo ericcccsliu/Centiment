@@ -10,6 +10,8 @@
 #include <cctype>
 #include <cmath>
 
+enum class Booster {none, positive, negative};
+
 using namespace std; 
 class SentimentAnalyzer { 
     public:
@@ -31,10 +33,13 @@ class SentimentAnalyzer {
         /*processing*/ 
         bool IsSentEnd(char c);
         bool IsLetter(char c);
-        int AnalyzeSentence(std::vector<std::string> &sentence) const;
-        int BoosterScore(std::vector<std::string> &sentence) const; 
-        int Negate(std::vector<std::string> &sentence) const; 
+        double AnalyzeSentence(std::vector<std::string> &sentence) const;
+        bool IsPositiveBooster(std::string &word) const; 
+        bool IsNegativeBooster(std::string &word) const; 
+        bool IsNegation(std::string &word) const; 
         double ScaleScore(int raw_score);
+
+        const double booster_multiplier = 0.3;
         
 }; 
 

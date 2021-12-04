@@ -55,24 +55,48 @@ double SentimentAnalyzer::Analyze(std::string input_dir) {
     return ScaleScore(raw_score);
 }
 
-int SentimentAnalyzer::AnalyzeSentence(std::vector<std::string> &sentence) const{
-    int score = 0.0;
+double SentimentAnalyzer::AnalyzeSentence(std::vector<std::string> &sentence) const{
+    double score = 0.0;
+    int negation_multiplier = 1; 
+    int booster_distance = 0; 
+    Booster current_booster = Booster::none; 
+
     for(std::string s : sentence) {
-        if(lex.count(s) > 0){
-            score += lex.at(s); 
+        if(IsNegativeBooster(s)){
+            current_booster = Booster::negative;
+            booster_distance = 0; 
+        } else if(IsPositiveBooster(s)){
+            current_booster = Booster::negative; 
+            booster_distance = 0; 
         }
+        if(IsNegation(s)){
+            negation_multiplier *= -1; 
+        }
+        if(lex.count(s) > 0){
+            if(booster_distance <= 3 && current_booster != Booster::none){
+                if(current_booster == Booster::positive){
+                    score += lex.at(s) + booster_multiplier*lex.at(s); 
+                } else {
+                    score += lex.at(s) - booster_multiplier*lex.at(s); 
+                }
+            } else {
+                score += lex.at(s); 
+            }
+        } 
+        booster_distance++; 
     }
-    return score;
+    return score * negation_multiplier;
 }
 
-int SentimentAnalyzer::BoosterScore(std::vector<std::string> &sentence) const{
-    /*todo*/ 
+bool SentimentAnalyzer::IsPositiveBooster(std::string &word) const{
+    return booster_pos.count(word) > 0; 
+}
+bool SentimentAnalyzer::IsNegativeBooster(std::string &word) const{
+    return booster_neg.count(word) > 0; 
 }
 
-int SentimentAnalyzer::Negate(std::vector<std::string> &sentence) const{
-    /*todo*/
-    //returns +1 if there is an even number of negations
-    //returns -1 if there is an odd number of negations 
+bool SentimentAnalyzer::IsNegation(std::string &word) const{
+    return negations.count(word) > 0; 
 }
 
 /**
