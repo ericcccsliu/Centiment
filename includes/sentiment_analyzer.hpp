@@ -31,7 +31,9 @@ class SentimentAnalyzer {
         /*processing*/ 
         bool IsSentEnd(char c);
         bool IsLetter(char c);
-        int AnalyzeSentence(std::vector<std::string>);
+        int AnalyzeSentence(std::vector<std::string> &sentence) const;
+        int BoosterScore(std::vector<std::string> &sentence) const; 
+        int Negate(std::vector<std::string> &sentence) const; 
         double ScaleScore(int raw_score);
         
 }; 

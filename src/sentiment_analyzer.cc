@@ -55,7 +55,7 @@ double SentimentAnalyzer::Analyze(std::string input_dir) {
     return ScaleScore(raw_score);
 }
 
-int SentimentAnalyzer::AnalyzeSentence(std::vector<std::string> sentence) {
+int SentimentAnalyzer::AnalyzeSentence(std::vector<std::string> &sentence) const{
     int score = 0.0;
     for(std::string s : sentence) {
         if(lex.count(s) > 0){
@@ -63,6 +63,16 @@ int SentimentAnalyzer::AnalyzeSentence(std::vector<std::string> sentence) {
         }
     }
     return score;
+}
+
+int SentimentAnalyzer::BoosterScore(std::vector<std::string> &sentence) const{
+    /*todo*/ 
+}
+
+int SentimentAnalyzer::Negate(std::vector<std::string> &sentence) const{
+    /*todo*/
+    //returns +1 if there is an even number of negations
+    //returns -1 if there is an odd number of negations 
 }
 
 /**
