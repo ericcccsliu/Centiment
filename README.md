@@ -1,4 +1,4 @@
-## Building the project
+# Building the project
 
 1. Clone the repo locally
 
@@ -12,9 +12,9 @@
 
 `./bin/tests`
 
-## Use
+# Use
 
-# Analysis
+## Analysis
 
 1. Create a text file with your input
 2. Run 
@@ -23,7 +23,7 @@
 
 The sentiment score is printed.
 
-# Library
+## Library
 [Credit](https://iq.opengenus.org/create-shared-library-in-cpp/)
 1. Copy sentiment_analyzer.so to your directory
 2. Compile, create an executable
@@ -34,7 +34,7 @@ The sentiment score is printed.
 
 `export LD_LIBRARY_PATH={library_path}/:$LD_LIBRARY_PATH`
 
-## Running the test suite
+# Running the test suite
 
 1. Compile 
 
