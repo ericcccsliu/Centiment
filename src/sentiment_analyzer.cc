@@ -73,7 +73,8 @@ int SentimentAnalyzer::AnalyzeSentence(std::vector<std::string> sentence) {
  * this is important if you want to compare scores for larger, v + or v - files
  * for example, tanh(1.47) is about .90 while 1/(1+|9|) is 0.90
  * 
- * TODO: add options for scale function (i.e. x/sqrt(1+x^2), tanh(x), erf(sqrt(pi)x/2)
+ * TODO: add options for scale function 
+ * (i.e. x/sqrt(1+x^2), tanh(x), erf(sqrt(pi)x/2)
  * (2/pi)arctan(x))
  **/
 double SentimentAnalyzer::ScaleScore(int raw_score) {
