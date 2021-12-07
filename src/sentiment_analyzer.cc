@@ -153,13 +153,8 @@ double SentimentAnalyzer::ScaleScore(double raw_score) {
     return tanh(raw_score);
 }
 
-std::vector<std::vector<std::string>> SentimentAnalyzer::TokenizeString(std::string input){
-    std::vector<std::vector<std::string>>  out;
-    std::vector<std::string> sent;
-    std::string word = "";
-
-    
-    for(char c : input) {
+void SentimentAnalyzer::Tokenize(std::string in, std::vector<std::vector<std::string>>&  out, std::vector<std::string>& sent, std::string& word){
+    for(char c : in) {
         if(IsLetter(c)) {
             word+= c;
         }
@@ -182,6 +177,7 @@ std::vector<std::vector<std::string>> SentimentAnalyzer::TokenizeString(std::str
             sent.push_back(word);
              word = "";
         }
+    
 }
 
 std::vector<std::vector<std::string>> SentimentAnalyzer::TokenizeString(std::string in){
