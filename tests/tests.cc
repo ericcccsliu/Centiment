@@ -43,28 +43,34 @@ TEST_CASE("Tokenize", "") {
 
 }
 
-TEST_CASE("Analyze", "") {
-    SentimentAnalyzer s;
-    REQUIRE(s.AnalyzeDirectory("./tests/test_input_3.txt") == tanh(3));
-}
-
-/*
-
 TEST_CASE("tokenize problems", "") {
     SentimentAnalyzer s;
-    std::vector<std::vector<std::string>> in = s.Tokenize("./tests/test_input_4.txt");
+    std::vector<std::vector<std::string>> in = s.TokenizeDirectory("./tests/test_input_4.txt");
 
     REQUIRE(in.size() == 2);
     REQUIRE(in[0].size() == 4);
     REQUIRE(in[1].size() == 3);
     REQUIRE(in[0][0] == "Spring");
-    REQUIRE(in[0][0] == "is");
-    REQUIRE(in[0][0] == "really");
-    REQUIRE(in[0][0] == "here");
-    REQUIRE(in[0][0] == "Swans");
-    REQUIRE(in[0][0] == "are");
-    REQUIRE(in[0][0] == "back");
+    REQUIRE(in[0][1] == "is");
+    REQUIRE(in[0][2] == "really");
+    REQUIRE(in[0][3] == "here");
+    REQUIRE(in[1][0] == "Swans");
+    REQUIRE(in[1][1] == "are");
+    REQUIRE(in[1][2] == "back");
+}
+
+TEST_CASE("Analyze", "") {
+    SentimentAnalyzer s;
+    REQUIRE(s.AnalyzeDirectory("./tests/test_input_3.txt") == tanh(3));
+    REQUIRE(s.AnalyzeLine("I am happy") == tanh(1));
+    REQUIRE(s.AnalyzeLine("I am not happy") == tanh(-1));
+    REQUIRE(s.AnalyzeLine("I am terrible") == tanh(-1));
+    REQUIRE(s.AnalyzeLine("I am not terrible") == tanh(1));
+    bool res = s.AnalyzeLine("I am happy") < s.AnalyzeLine("I am very happy");
+    REQUIRE( res == 1);
+    bool res1 = s.AnalyzeLine("I am happy") > s.AnalyzeLine("I am not very happy");
+    REQUIRE( res1 == 1);
 }
 
 
-*/
+
