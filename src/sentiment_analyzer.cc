@@ -77,7 +77,7 @@ double SentimentAnalyzer::AnalyzeSentenceVector(std::vector<std::string> &senten
             current_booster = Booster::negative;
             booster_distance = 0; 
         } else if(IsPositiveBooster(s)){
-            current_booster = Booster::negative; 
+            current_booster = Booster::positive; 
             booster_distance = 0; 
         }
         if(IsNegation(s)){
@@ -86,9 +86,9 @@ double SentimentAnalyzer::AnalyzeSentenceVector(std::vector<std::string> &senten
         if(lex.count(s) > 0){
             if(booster_distance <= 3 && current_booster != Booster::none){
                 if(current_booster == Booster::positive){
-                    score += lex.at(s) + booster_multiplier*lex.at(s); 
+                    score += (lex.at(s) + booster_multiplier*lex.at(s)); 
                 } else {
-                    score += lex.at(s) - booster_multiplier*lex.at(s); 
+                    score += (lex.at(s) - booster_multiplier*lex.at(s)); 
                 }
             } else {
                 score += lex.at(s); 
@@ -122,8 +122,8 @@ bool SentimentAnalyzer::IsNegation(std::string &word) const{
  * (i.e. x/sqrt(1+x^2), tanh(x), erf(sqrt(pi)x/2)
  * (2/pi)arctan(x))
  **/
-double SentimentAnalyzer::ScaleScore(int raw_score) {
-    return ((double) raw_score) / (1 + abs(raw_score));
+double SentimentAnalyzer::ScaleScore(double raw_score) {
+    return (raw_score) / (1.0 + abs(raw_score));
 }
 
 std::vector<std::vector<std::string>> SentimentAnalyzer::TokenizeString(std::string input){

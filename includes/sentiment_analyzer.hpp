@@ -39,7 +39,7 @@ class SentimentAnalyzer {
         bool IsPositiveBooster(std::string &word) const; 
         bool IsNegativeBooster(std::string &word) const; 
         bool IsNegation(std::string &word) const; 
-        double ScaleScore(int raw_score);
+        double ScaleScore(double raw_score);
 
         const double booster_multiplier = 0.3;
         
