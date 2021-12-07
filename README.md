@@ -26,6 +26,16 @@ starts out as positive, but shifts to negative after the "but". However, the wor
 
 ## Scaling
 
+The score is scaled to a double value in [-1.0, 1.0]. This enables comparison between files of different sizes.
+
+Scaling functions (graphed in [Desmos](https://www.desmos.com/calculator/v36irnqrwx)):
+
+![Screen Shot 2021-12-07 at 2 09 39 PM](https://user-images.githubusercontent.com/56461226/145099533-d5cdb461-8fa1-47be-9175-e06f7644da5b.png)
+
+Our library currently uses tanh(x). We chose tanh(x) because it's the least sensitive to changes in lower scores, as seen above. We expect users will be interested in comparing shorter or sentiment-ambigious files (lower raw scores), rather than two very positive or very negative files. A future version will allow users to choose the scaling function.
+
+## Tokenization
+
 # Building the project
 
 1. Clone the repo locally
