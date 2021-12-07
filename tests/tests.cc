@@ -7,13 +7,13 @@
 
 TEST_CASE("Tokenize", "") {
     SentimentAnalyzer s;
-    std::vector<std::vector<std::string>> in = s.Tokenize("./tests/test_input.txt");
+    std::vector<std::vector<std::string>> in = s.TokenizeDirectory("./tests/test_input.txt");
     REQUIRE(in.size() == 1);
     REQUIRE(in[0].size() == 2);
     REQUIRE(in[0][0] == "hello");
     REQUIRE(in[0][1] == "world");
 
-    std::vector<std::vector<std::string>> in1 = s.Tokenize("./tests/test_input_1.txt");
+    std::vector<std::vector<std::string>> in1 = s.TokenizeDirectory("./tests/test_input_1.txt");
     REQUIRE(in1[0].size() == 6);
     REQUIRE(in1[0][0] == "hello");
     REQUIRE(in1[0][1] == "world");
@@ -22,7 +22,7 @@ TEST_CASE("Tokenize", "") {
     REQUIRE(in1[0][4] == "hello");
     REQUIRE(in1[0][5] == "world");
     
-    std::vector<std::vector<std::string>> in2 = s.Tokenize("./tests/test_input_2.txt");
+    std::vector<std::vector<std::string>> in2 = s.TokenizeDirectory("./tests/test_input_2.txt");
     REQUIRE(in2.size() == 3);
     // REQUIRE(in2[0].size() == 2);
     REQUIRE(in2[0][0] == "hello");
@@ -45,7 +45,7 @@ TEST_CASE("Tokenize", "") {
 
 TEST_CASE("Analyze", "") {
     SentimentAnalyzer s;
-    REQUIRE(s.Analyze("./tests/test_input_3.txt") == 0.75);
+    REQUIRE(s.AnalyzeDirectory("./tests/test_input_3.txt") == tanh(3));
 }
 
 /*

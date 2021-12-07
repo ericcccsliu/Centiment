@@ -62,7 +62,6 @@ double SentimentAnalyzer::AnalyzeDirectory(std::string input_dir) {
     for(auto sent : sentences) {
         raw_score += AnalyzeSentenceVector(sent);
     }
-    //return raw_score;
     return ScaleScore(raw_score);
 }
 
@@ -111,11 +110,11 @@ bool SentimentAnalyzer::IsNegation(std::string &word) const{
 }
 
 /**
- * scales score using 1/(1+|x|)
+ * scales score using tanh(x)
  * ScaleScore uses this function because it approaches its upper and lower bounds 
- * "slower" than the logistic function, x/sqrt(1+x^2), tanh(x), and (2/pi)arctan(x)
+ * "faster" than the logistic function, x/sqrt(1+x^2), 1/(1 + |x|) and (2/pi)arctan(x)
  * 
- * this is important if you want to compare scores for larger, v + or v - files
+ * this is important if you want to compare scores for smaller files
  * for example, tanh(1.47) is about .90 while 1/(1+|9|) is 0.90
  * 
  * TODO: add options for scale function 
@@ -123,7 +122,7 @@ bool SentimentAnalyzer::IsNegation(std::string &word) const{
  * (2/pi)arctan(x))
  **/
 double SentimentAnalyzer::ScaleScore(double raw_score) {
-    return (raw_score) / (1.0 + abs(raw_score));
+    return tanh(raw_score);
 }
 
 std::vector<std::vector<std::string>> SentimentAnalyzer::TokenizeString(std::string input){
