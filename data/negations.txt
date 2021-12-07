@@ -21,7 +21,7 @@ isnt
 mightnt
 mustnt
 neither
-don't.
+don't
 hadn't
 hasn't
 haven't
