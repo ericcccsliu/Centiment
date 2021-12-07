@@ -36,6 +36,24 @@ Our library currently uses tanh(x). We chose tanh(x) because it's the least sens
 
 ## Tokenization
 
+The input must be split into words and sentences for analysis. We represent a text as a vector of vectors. Its elements (vectors of strings) represent sentences. 
+
+Tokenization algorithm (simplified): 
+1. Read a character from the text
+- If it's a letter or ', append it to the word string
+- If it ends a independent clause, append the sentence vector to the text vector
+- If it ends a word (i.e. char == ' '), append it to the sentence vector
+2. Repeat until end of text
+
+The actual code handles many edge cases, including text that starts w punctuation, contractions, and sentences that end without punctation. Any text input works, as long as it's:
+1. Input as a path to a text file or a string
+2. In English
+3. Delimited by anything except English letters, apostrophes, or !?.
+
+Future versions may include:
+- Advanced support for independent clauses within a sentence (i.e. handling edge cases like supercommas)
+- Support for other languages
+
 # Building the project
 
 1. Clone the repo locally
