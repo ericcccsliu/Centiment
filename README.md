@@ -1,3 +1,31 @@
+# About this project
+
+This is a C++ library for sentiment analysis. It utilizes the positive and negative sentiment scores listed in the [NRC Word-Emotion Association Lexicon](https://saifmohammad.com/WebPages/NRC-Emotion-Lexicon.htm), as well as three additional heuristics, to assign a sentiment score to inputted text. 
+
+## Lexicon
+
+The sentiment lexicon that this project utilizes is an adbridged version of the NRC Word-Emotion Association Lexicon. It contains the sum of the positive and negative sentiment scores for each word. 
+
+## Heuristics
+
+Three heuristics are utilized to present a more accurate representation of sentiment. Some of these heuristics were inspired by/derived from the [VADER sentiment analysis](https://github.com/cjhutto/vaderSentiment) tools written in Python. They are as follows: 
+
+### 1. Negation handling 
+
+Our library performs negation handling at the clause level, with one exception in "but" handling. Each negation found within a sentence will multiply the resultant score of the entire clause by -1. 
+
+### 2. Boosters
+
+Some words in the English language increase the intensity of words that follow, and some words do the opposite, decreasing the intensity of following words. Using [VADER](https://github.com/cjhutto/vaderSentiment) as a guide, we've curated lists of words that increase and decrease intensity of words that follow. For simplicity, we refer to such words as "boosters". Our library processes boosters by increasing or reducing the sentiment scores of the three subsequent words by a empirically-derived value.  
+
+### 3. "But"
+
+Presence of the word "but" in a sentence causes a shift in intensity to the clause that follows after the "but". For example, the sentence
+`they willingly confessed, but it wasn't the truth`
+starts out as positive, but shifts to negative after the "but". However, the words that follow the "but" carry more weight, so the sentence is negative overall. To accurately analyze these sentences, they are broken apart into clauses before and after the "but". The clause before is given less weight and the clause after is given more. 
+
+## Scaling
+
 # Building the project
 
 1. Clone the repo locally
@@ -34,6 +62,10 @@ The sentiment score is printed.
 
 `export LD_LIBRARY_PATH={library_path}/:$LD_LIBRARY_PATH`
 
+## Library Usage: 
+
+
+
 # Running the test suite
 
 1. Compile 
@@ -43,3 +75,4 @@ The sentiment score is printed.
 2. Run
 
 `./bin/tests`
+

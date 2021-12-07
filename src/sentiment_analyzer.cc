@@ -94,6 +94,21 @@ double SentimentAnalyzer::AnalyzeSentenceVector(std::vector<std::string> &senten
         }
         return (weight_before_but * AnalyzeSentenceVector(before_but) + weight_after_but * AnalyzeSentenceVector(after_but)); 
     }
+    if(ContainsSeparator(sentence)){
+        size_t i = 0;
+        std::vector<std::string> before_separator; 
+        std::vector<std::string> after_separator; 
+        while(sentence.at(i).length() != 1 || !IsClauseSeparator(sentence.at(i).at(0))){
+            before_separator.push_back(sentence.at(i));
+            i++;
+        }
+        i++;
+        while(i < sentence.size()){
+            after_separator.push_back(sentence.at(i));
+            i++; 
+        }
+        return (AnalyzeSentenceVector(before_separator) + AnalyzeSentenceVector(after_separator)); 
+    }
 
     for(std::string s : sentence) {
         double word_score = 0; 
@@ -157,8 +172,15 @@ void SentimentAnalyzer::Tokenize(std::string in, std::vector<std::vector<std::st
     for(char c : in) {
         if(IsLetter(c)) {
             word+= c;
-        }
-        else if(IsSentEnd(c) && sent.size() > 0) {
+        } else if(IsClauseSeparator(c)){
+            if(word.length() > 0) {
+                sent.push_back(word);
+                word = "";
+            }
+            word += c;
+            sent.push_back(word); 
+            word = ""; 
+        } else if(IsSentEnd(c) && sent.size() > 0) {
             
             if(word.length() > 0) {
                 sent.push_back(word);
@@ -223,6 +245,15 @@ std::vector<std::vector<std::string>>  SentimentAnalyzer::TokenizeDirectory(std:
 
 }
 
+bool SentimentAnalyzer::ContainsSeparator(std::vector<std::string> &sentence) const{ 
+    for(std::string s : sentence){
+        if(s.length() == 1 && IsClauseSeparator(s.at(0))){
+            return true; 
+        }
+    }
+    return false; 
+}
+
 bool SentimentAnalyzer::IsSentEnd(char c) {
     std::string punct = "!?.";
     return punct.find(c) != std::string::npos;
@@ -230,5 +261,10 @@ bool SentimentAnalyzer::IsSentEnd(char c) {
 
 bool SentimentAnalyzer::IsLetter(char c) {
     std::string letters = "abcdefghijklmnopqrstuvwxyz'";
+    return letters.find(std::tolower(c)) != std::string::npos;
+}
+
+bool SentimentAnalyzer::IsClauseSeparator(char c) const{
+    std::string letters = ":,;—";
     return letters.find(std::tolower(c)) != std::string::npos;
 }
