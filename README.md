@@ -1,59 +1,3 @@
-# About this project
-
-This is a C++ library for sentiment analysis. It utilizes the positive and negative sentiment scores listed in the [NRC Word-Emotion Association Lexicon](https://saifmohammad.com/WebPages/NRC-Emotion-Lexicon.htm), as well as three additional heuristics, to assign a sentiment score to inputted text. 
-
-## Lexicon
-
-The sentiment lexicon that this project utilizes is an adbridged version of the NRC Word-Emotion Association Lexicon. It contains the sum of the positive and negative sentiment scores for each word. 
-
-## Heuristics
-
-Three heuristics are utilized to present a more accurate representation of sentiment. Some of these heuristics were inspired by/derived from the [VADER sentiment analysis](https://github.com/cjhutto/vaderSentiment) tools written in Python. They are as follows: 
-
-### 1. Negation handling 
-
-Our library performs negation handling at the clause level, with one exception in "but" handling. Each negation found within a sentence will multiply the resultant score of the entire clause by -1. 
-
-### 2. Boosters
-
-Some words in the English language increase the intensity of words that follow, and some words do the opposite, decreasing the intensity of following words. Using [VADER](https://github.com/cjhutto/vaderSentiment) as a guide, we've curated lists of words that increase and decrease intensity of words that follow. For simplicity, we refer to such words as "boosters". Our library processes boosters by increasing or reducing the sentiment scores of the three subsequent words by a empirically-derived value.  
-
-### 3. "But"
-
-Presence of the word "but" in a sentence causes a shift in intensity to the clause that follows after the "but". For example, the sentence
-`they willingly confessed, but it wasn't the truth`
-starts out as positive, but shifts to negative after the "but". However, the words that follow the "but" carry more weight, so the sentence is negative overall. To accurately analyze these sentences, they are broken apart into clauses before and after the "but". The clause before is given less weight and the clause after is given more. 
-
-## Scaling
-
-The score is scaled to a double value in [-1.0, 1.0]. This enables comparison between files of different sizes.
-
-Scaling functions (graphed in [Desmos](https://www.desmos.com/calculator/v36irnqrwx)):
-
-![Screen Shot 2021-12-07 at 2 09 39 PM](https://user-images.githubusercontent.com/56461226/145099533-d5cdb461-8fa1-47be-9175-e06f7644da5b.png)
-
-Our library currently uses tanh(x). We chose tanh(x) because it's the least sensitive to changes in lower scores, as seen above. We expect users will be interested in comparing shorter or sentiment-ambigious files (lower raw scores), rather than two very positive or very negative files. A future version will allow users to choose the scaling function.
-
-## Tokenization
-
-The input must be split into words and sentences for analysis. We represent a text as a vector of vectors. Its elements (vectors of strings) represent sentences. 
-
-Tokenization algorithm (simplified): 
-1. Read a character from the text
-- If it's a letter or ', append it to the word string
-- If it ends a independent clause, append the sentence vector to the text vector
-- If it ends a word (i.e. char == ' '), append it to the sentence vector
-2. Repeat until end of text
-
-The actual code handles many edge cases, including text that starts w punctuation, contractions, and sentences that end without punctation. Any text input works, as long as it's:
-1. Input as a path to a text file or a string
-2. In English
-3. Delimited by anything except English letters, apostrophes, or !?.
-
-Future versions may include:
-- Advanced support for independent clauses within a sentence (i.e. handling edge cases like supercommas)
-- Support for other languages
-
 # Building the project
 
 1. Clone the repo locally
@@ -122,3 +66,59 @@ this function takes in a std::string as input and returns a double containing th
 
 `./bin/tests`
 
+
+# About this project
+
+This is a C++ library for sentiment analysis. It utilizes the positive and negative sentiment scores listed in the [NRC Word-Emotion Association Lexicon](https://saifmohammad.com/WebPages/NRC-Emotion-Lexicon.htm), as well as three additional heuristics, to assign a sentiment score to inputted text. 
+
+## Lexicon
+
+The sentiment lexicon that this project utilizes is an adbridged version of the NRC Word-Emotion Association Lexicon. It contains the sum of the positive and negative sentiment scores for each word. 
+
+## Heuristics
+
+Three heuristics are utilized to present a more accurate representation of sentiment. Some of these heuristics were inspired by/derived from the [VADER sentiment analysis](https://github.com/cjhutto/vaderSentiment) tools written in Python. They are as follows: 
+
+### 1. Negation handling 
+
+Our library performs negation handling at the clause level, with one exception in "but" handling. Each negation found within a sentence will multiply the resultant score of the entire clause by -1. 
+
+### 2. Boosters
+
+Some words in the English language increase the intensity of words that follow, and some words do the opposite, decreasing the intensity of following words. Using [VADER](https://github.com/cjhutto/vaderSentiment) as a guide, we've curated lists of words that increase and decrease intensity of words that follow. For simplicity, we refer to such words as "boosters". Our library processes boosters by increasing or reducing the sentiment scores of the three subsequent words by a empirically-derived value.  
+
+### 3. "But"
+
+Presence of the word "but" in a sentence causes a shift in intensity to the clause that follows after the "but". For example, the sentence
+`they willingly confessed, but it wasn't the truth`
+starts out as positive, but shifts to negative after the "but". However, the words that follow the "but" carry more weight, so the sentence is negative overall. To accurately analyze these sentences, they are broken apart into clauses before and after the "but". The clause before is given less weight and the clause after is given more. 
+
+## Scaling
+
+The score is scaled to a double value in [-1.0, 1.0]. This enables comparison between files of different sizes.
+
+Scaling functions (graphed in [Desmos](https://www.desmos.com/calculator/v36irnqrwx)):
+
+![Screen Shot 2021-12-07 at 2 09 39 PM](https://user-images.githubusercontent.com/56461226/145099533-d5cdb461-8fa1-47be-9175-e06f7644da5b.png)
+
+Our library currently uses tanh(x). We chose tanh(x) because it's the least sensitive to changes in lower scores, as seen above. We expect users will be interested in comparing shorter or sentiment-ambigious files (lower raw scores), rather than two very positive or very negative files. A future version will allow users to choose the scaling function.
+
+## Tokenization
+
+The input must be split into words and sentences for analysis. We represent a text as a vector of vectors. Its elements (vectors of strings) represent sentences. 
+
+Tokenization algorithm (simplified): 
+1. Read a character from the text
+- If it's a letter or ', append it to the word string
+- If it ends a independent clause, append the sentence vector to the text vector
+- If it ends a word (i.e. char == ' '), append it to the sentence vector
+2. Repeat until end of text
+
+The actual code handles many edge cases, including text that starts w punctuation, contractions, and sentences that end without punctation. Any text input works, as long as it's:
+1. Input as a path to a text file or a string
+2. In English
+3. Delimited by anything except English letters, apostrophes, or !?.
+
+Future versions may include:
+- Advanced support for independent clauses within a sentence (i.e. handling edge cases like supercommas)
+- Support for other languages
