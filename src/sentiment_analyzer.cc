@@ -71,7 +71,12 @@ double SentimentAnalyzer::AnalyzeSentenceVector(std::vector<std::string> &senten
     int booster_distance = 0; 
     Booster current_booster = Booster::none; 
 
+    bool contains_but = ContainsBut(sentence); 
+    bool after_but = false;
+
     for(std::string s : sentence) {
+        double word_score = 0; 
+        double but_multiplier = 1; 
         if(IsNegativeBooster(s)){
             current_booster = Booster::negative;
             booster_distance = 0; 
@@ -82,17 +87,31 @@ double SentimentAnalyzer::AnalyzeSentenceVector(std::vector<std::string> &senten
         if(IsNegation(s)){
             negation_multiplier *= -1; 
         }
+        if(s == "but"){
+            after_but = true; 
+        }
         if(lex.count(s) > 0){
             if(booster_distance <= 3 && current_booster != Booster::none){
                 if(current_booster == Booster::positive){
-                    score += (lex.at(s) + booster_multiplier*lex.at(s)); 
+                    word_score = (lex.at(s) + booster_multiplier*lex.at(s)); 
                 } else {
-                    score += (lex.at(s) - booster_multiplier*lex.at(s)); 
+                    word_score = (lex.at(s) - booster_multiplier*lex.at(s)); 
                 }
             } else {
-                score += lex.at(s); 
+                word_score = lex.at(s); 
             }
         } 
+        if(contains_but){
+            if(after_but){
+                but_multiplier = weight_after_but;
+            } else {
+                but_multiplier = weight_before_but; 
+            }
+            score += word_score * but_multiplier; 
+        } else {
+            score += word_score; 
+        }
+        
         booster_distance++; 
     }
     return score * negation_multiplier;
@@ -123,6 +142,15 @@ bool SentimentAnalyzer::IsNegation(std::string &word) const{
  **/
 double SentimentAnalyzer::ScaleScore(double raw_score) {
     return tanh(raw_score);
+}
+
+bool SentimentAnalyzer::ContainsBut(std::vector<std::string> &sentence) const {
+    for(std::string s : sentence){
+        if(s == "but"){
+            return true; 
+        }
+    }
+    return false; 
 }
 
 std::vector<std::vector<std::string>> SentimentAnalyzer::TokenizeString(std::string input){
