@@ -64,13 +64,39 @@ double SentimentAnalyzer::AnalyzeDirectory(std::string input_dir) {
     return ScaleScore(raw_score);
 }
 
+bool SentimentAnalyzer::ContainsBut(std::vector<std::string> &sentence) const {
+    for(std::string s : sentence){
+        if(s == "but"){
+            return true; 
+        }
+    }
+    return false; 
+}
+
 double SentimentAnalyzer::AnalyzeSentenceVector(std::vector<std::string> &sentence) const{
     double score = 0.0;
     double negation_multiplier = 1; 
     int booster_distance = 0; 
     Booster current_booster = Booster::none; 
 
+    if(ContainsBut(sentence)){
+        size_t i = 0; 
+        std::vector<std::string> before_but; 
+        std::vector<std::string> after_but; 
+        while(sentence.at(i) != "but"){
+            before_but.push_back(sentence.at(i)); 
+            i++; 
+        }
+        i++; 
+        while(i < sentence.size()){
+            after_but.push_back(sentence.at(i));
+            i++; 
+        }
+        return (weight_before_but * AnalyzeSentenceVector(before_but) + weight_after_but * AnalyzeSentenceVector(after_but)); 
+    }
+
     for(std::string s : sentence) {
+        double word_score = 0; 
         if(IsNegativeBooster(s)){
             current_booster = Booster::negative;
             booster_distance = 0; 
@@ -84,14 +110,17 @@ double SentimentAnalyzer::AnalyzeSentenceVector(std::vector<std::string> &senten
         if(lex.count(s) > 0){
             if(booster_distance <= 3 && current_booster != Booster::none){
                 if(current_booster == Booster::positive){
-                    score += (lex.at(s) + booster_multiplier*lex.at(s)); 
+                    word_score = (lex.at(s) + booster_multiplier*lex.at(s)); 
                 } else {
-                    score += (lex.at(s) - booster_multiplier*lex.at(s)); 
+                    word_score = (lex.at(s) - booster_multiplier*lex.at(s)); 
                 }
             } else {
-                score += lex.at(s); 
+                word_score = lex.at(s); 
             }
         } 
+      
+        score += word_score; 
+        
         booster_distance++; 
     }
     return score * negation_multiplier;
@@ -124,7 +153,12 @@ double SentimentAnalyzer::ScaleScore(double raw_score) {
     return tanh(raw_score);
 }
 
-void SentimentAnalyzer::Tokenize(std::string input, std::vector<std::vector<std::string>>&  out, std::vector<std::string>& sent, std::string& word) {
+std::vector<std::vector<std::string>> SentimentAnalyzer::TokenizeString(std::string input){
+    std::vector<std::vector<std::string>>  out;
+    std::vector<std::string> sent;
+    std::string word = "";
+
+    
     for(char c : input) {
         if(IsLetter(c)) {
             word+= c;
@@ -199,6 +233,6 @@ bool SentimentAnalyzer::IsSentEnd(char c) {
 }
 
 bool SentimentAnalyzer::IsLetter(char c) {
-    std::string letters = "abcdefghijklmnopqrstuvwxyz";
+    std::string letters = "abcdefghijklmnopqrstuvwxyz'";
     return letters.find(std::tolower(c)) != std::string::npos;
 }

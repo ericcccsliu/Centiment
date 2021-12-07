@@ -12141,6 +12141,7 @@ stuff	0
 stuffing	0
 stuffy	-1
 stumble	-1
+stumbled	-1
 stump	0
 stunned	-1
 stunt	0

@@ -41,8 +41,11 @@ class SentimentAnalyzer {
         bool IsNegativeBooster(std::string &word) const; 
         bool IsNegation(std::string &word) const; 
         double ScaleScore(double raw_score);
+        bool ContainsBut(std::vector<std::string> &sentence) const; 
 
         const double booster_multiplier = 0.3;
+        const double weight_before_but = 0.5; 
+        const double weight_after_but = 1.5; 
         
 }; 
 
