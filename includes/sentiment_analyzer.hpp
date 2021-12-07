@@ -18,6 +18,7 @@ class SentimentAnalyzer {
         SentimentAnalyzer();
         double AnalyzeDirectory(std::string input_dir);
         double AnalyzeLine(std::string input);
+        void Tokenize(std::string in, std::vector<std::vector<std::string>>&  out, std::vector<std::string>& sent, std::string& word);
         std::vector<std::vector<std::string>> TokenizeDirectory(std::string input_dir);
         std::vector<std::vector<std::string>> TokenizeString(std::string input);
     private: 

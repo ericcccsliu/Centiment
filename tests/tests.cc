@@ -59,6 +59,31 @@ TEST_CASE("tokenize problems", "") {
     REQUIRE(in[1][2] == "back");
 }
 
+TEST_CASE("tokenize string problems", "") {
+    SentimentAnalyzer s;
+    std::vector<std::vector<std::string>> in = s.TokenizeString("Spring is really here. Swans are back.");
+
+    REQUIRE(in.size() == 2);
+    REQUIRE(in[0].size() == 4);
+    REQUIRE(in[1].size() == 3);
+    REQUIRE(in[0][0] == "Spring");
+    REQUIRE(in[0][1] == "is");
+    REQUIRE(in[0][2] == "really");
+    REQUIRE(in[0][3] == "here");
+    REQUIRE(in[1][0] == "Swans");
+    REQUIRE(in[1][1] == "are");
+    REQUIRE(in[1][2] == "back");
+
+    SentimentAnalyzer s1;
+    std::vector<std::vector<std::string>> in1 = s1.TokenizeString("I am happy");
+
+    REQUIRE(in1.size() == 1);
+    REQUIRE(in1[0].size() == 3);
+    REQUIRE(in1[0][0] == "I");
+    REQUIRE(in1[0][1] == "am");
+    REQUIRE(in1[0][2] == "happy");
+}
+
 TEST_CASE("Analyze", "") {
     SentimentAnalyzer s;
     REQUIRE(s.AnalyzeDirectory("./tests/test_input_3.txt") == tanh(3));
