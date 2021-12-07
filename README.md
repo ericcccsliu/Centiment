@@ -51,7 +51,7 @@ starts out as positive, but shifts to negative after the "but". However, the wor
 
 The sentiment score is printed.
 
-## Library
+## Library Instructions
 [Credit](https://iq.opengenus.org/create-shared-library-in-cpp/)
 1. Copy sentiment_analyzer.so to your directory
 2. Compile, create an executable
@@ -62,9 +62,27 @@ The sentiment score is printed.
 
 `export LD_LIBRARY_PATH={library_path}/:$LD_LIBRARY_PATH`
 
-## Library Usage: 
+## Library Documentation: 
 
+include the library header: 
 
+`#include "sentiment_analyzer.hpp"` 
+
+call the default constructor:
+
+`SentimentAnalyzer s;`
+
+to perform sentiment analysis on a string, use:
+
+`AnalyzeLine(input)`
+
+this function takes in a std::string as input and returns a double containing the sentiment score of the input text.
+
+to perform sentiment analysis on a whole file containing text, use:
+
+`AnalyzeDirectory(directory)`
+
+this function takes in a std::string as input and returns a double containing the sentiment score of the text within the input directory.
 
 # Running the test suite
 
