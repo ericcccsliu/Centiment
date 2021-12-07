@@ -20,13 +20,14 @@ int main(int argc, char* argv[]) {
     std::cout << file_name << std::endl;
     ifstream myfile (file_name);
     if (myfile.is_open()) {
+        SentimentAnalyzer s; 
         while ( getline (myfile,line) ) {
         //std::cout << s.Analyze(line);
-        to_anlyze = line;
+            to_anlyze = line;
+            std::cout << to_anlyze << std::endl;
+            std::cout << "result: " << s.AnalyzeLine(to_anlyze) << std::endl;
+            std::cout << std::endl; 
         }
-        std::cout << to_anlyze << std::endl;
         myfile.close();
     }
-    SentimentAnalyzer s; 
-    std::cout << "result: " << s.Analyze(to_anlyze) << std::endl;
 }

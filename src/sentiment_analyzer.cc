@@ -43,21 +43,32 @@ void SentimentAnalyzer::ProcessBoosterNeg(){
     }
 }
 
-double SentimentAnalyzer::Analyze(std::string input_dir) {
-    std::vector<std::vector<std::string>>  sentences = Tokenize(input_dir);
+double SentimentAnalyzer::AnalyzeLine(std::string input){
+    std::vector<std::vector<std::string>> sentences = TokenizeString(input);
 
-    int raw_score = 0;
+    double raw_score = 0.0; 
 
     for(auto sent : sentences) {
-        raw_score += AnalyzeSentence(sent);
+        raw_score += AnalyzeSentenceVector(sent);
     }
+    return ScaleScore(raw_score); 
+}
 
+double SentimentAnalyzer::AnalyzeDirectory(std::string input_dir) {
+    std::vector<std::vector<std::string>>  sentences = TokenizeDirectory(input_dir);
+
+    double raw_score = 0.0;
+
+    for(auto sent : sentences) {
+        raw_score += AnalyzeSentenceVector(sent);
+    }
+    //return raw_score;
     return ScaleScore(raw_score);
 }
 
-double SentimentAnalyzer::AnalyzeSentence(std::vector<std::string> &sentence) const{
+double SentimentAnalyzer::AnalyzeSentenceVector(std::vector<std::string> &sentence) const{
     double score = 0.0;
-    int negation_multiplier = 1; 
+    double negation_multiplier = 1; 
     int booster_distance = 0; 
     Booster current_booster = Booster::none; 
 
@@ -115,14 +126,56 @@ double SentimentAnalyzer::ScaleScore(int raw_score) {
     return ((double) raw_score) / (1 + abs(raw_score));
 }
 
-std::vector<std::vector<std::string>>  SentimentAnalyzer::Tokenize(std::string input_dir) {
+std::vector<std::vector<std::string>> SentimentAnalyzer::TokenizeString(std::string input){
+    std::vector<std::vector<std::string>>  out;
+    std::vector<std::string> sent;
+    std::string word = "";
+
+    
+    for(char c : input) {
+        if(IsLetter(c)) {
+            word+= c;
+        }
+        else if(IsSentEnd(c) && sent.size() > 0) {
+            
+            if(word.length() > 0) {
+                sent.push_back(word);
+                word = "";
+            }
+            std::vector<std::string> new_sent(sent);
+            out.push_back(new_sent);
+            sent = {};
+        }
+        else if(word.length() > 0) {
+            sent.push_back(word);
+            word = "";
+        }
+    }
+    if(word.length() > 0) {
+        sent.push_back(word);
+            word = "";
+    }
+    if(sent.size() > 0) {
+        if(word.length() > 0) {
+            sent.push_back(word);
+            word = "";
+        }
+        std::vector<std::string> new_sent(sent);
+        out.push_back(new_sent);
+        sent = {};
+    }
+    return out;
+}
+
+
+std::vector<std::vector<std::string>>  SentimentAnalyzer::TokenizeDirectory(std::string input_dir) {
     std::ifstream ifs{input_dir};
     std::vector<std::vector<std::string>>  out;
     std::vector<std::string> sent;
     std::string word;
 
     for (std::string line; std::getline(ifs, line);) {
-        for( auto c : line) {
+        for(char c : line) {
             if(IsLetter(c)) {
                 word+= c;
             }

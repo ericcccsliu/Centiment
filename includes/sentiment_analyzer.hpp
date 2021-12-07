@@ -16,8 +16,10 @@ using namespace std;
 class SentimentAnalyzer { 
     public:
         SentimentAnalyzer();
-        double Analyze(std::string input_dir);
-        std::vector<std::vector<std::string>> Tokenize(std::string input_dir);
+        double AnalyzeDirectory(std::string input_dir);
+        double AnalyzeLine(std::string input);
+        std::vector<std::vector<std::string>> TokenizeDirectory(std::string input_dir);
+        std::vector<std::vector<std::string>> TokenizeString(std::string input);
     private: 
         unordered_map<string, int> lex;
         unordered_set<string> negations;
@@ -33,7 +35,7 @@ class SentimentAnalyzer {
         /*processing*/ 
         bool IsSentEnd(char c);
         bool IsLetter(char c);
-        double AnalyzeSentence(std::vector<std::string> &sentence) const;
+        double AnalyzeSentenceVector(std::vector<std::string> &sentence) const;
         bool IsPositiveBooster(std::string &word) const; 
         bool IsNegativeBooster(std::string &word) const; 
         bool IsNegation(std::string &word) const; 
