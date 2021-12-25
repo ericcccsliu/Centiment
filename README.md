@@ -2,7 +2,7 @@
 
 1. Clone the repo locally
 
-`git clone git@github.com:cs128-2021c/final-project-labgroup121.git`
+`git clone git@github.com:ericcccsliu/Centiment.git`
 
 2. Compile source files
 
